@@ -96,8 +96,6 @@ ST概念股继续走强，*ST吉恩、*ST八钢、*ST中特、*ST黑豹、*ST烯
 4、沪股通全天净流出2.43亿，深股通全天净流入6.79亿。
 (华尔街见闻7x24直播 全新改版) http://live.wallstreetcn.com/
 
-![enter image description here](https://wpimg.wallstcn.com/6b/93/67/deh596.png)
-
 15:15
 3月6日资金流向
 主力净流入行业板块前五：家电、软件服务、机械、电子元件、通讯行业
