@@ -1,0 +1,15 @@
+***********2016-12-15  PnL**************
+
+PnL_ETF: 28787779.47
+
+PnL_Future: 2703765.92
+
+PnLSettle_Option: -27800059.658
+PnLClose_Option: -27834488.54
+
+
+Summary of PnL: 
+PnLSettle_toal: 3691485.732
+PnLClose_toal: 3657056.85
+
+*****************************************

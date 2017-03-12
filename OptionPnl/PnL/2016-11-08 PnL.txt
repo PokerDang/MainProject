@@ -1,0 +1,26 @@
+***********2016-11-08  PnL**************
+
+TotalAsset_ETF179858905.58
+InitialCash_ETF153000000.0
+PnL_ETF: 26858905.58
+
+Margin_Future: 13423836.0
+Cash_Future: 13033803.04
+InitialCash_Future: 22800000.0
+PnL_Future: 3657639.04
+
+TotalAsset_Option: 28610336.6
+InitialCash_Option: 54000000.0
+LongPositionCloseValue: 2271646.0
+ShortPositionCloseValue: -5637505.0
+LongPositionSettleValue: 2271646.0
+ShortPositionSettleValue: -5637505.0
+PnLSettle_Option: -28812152.4
+PnLClose_Option: -28755522.4
+
+
+Summary of PnL: 
+PnLSettle_toal: 1704392.22
+PnLClose_toal: 1761022.22
+
+*****************************************

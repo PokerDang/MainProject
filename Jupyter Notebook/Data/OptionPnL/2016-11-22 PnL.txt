@@ -1,0 +1,16 @@
+***********2016-11-22  PnL**************
+
+Basic Information:
+InitialCashETF: 136000000.0
+InitialCashOption: 71000000.0
+InitialCashFuture: 22800000.0
+TotalAssetETF: 174134652.13
+MarginOption: 15822399.0
+CashOption: 14458910.4
+MarginFuture: 11957028.0
+CashFuture: 16979396.34
+
+Option Market Making PnL:
+PnLMarketSettle: 2277626.48
+PnLMarketClose: 2327619.64
+PnLOrcTheory: 2827561.0
