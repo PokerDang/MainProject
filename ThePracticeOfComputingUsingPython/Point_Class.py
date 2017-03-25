@@ -3,9 +3,9 @@
 import math
 
 class Point(object):
-    def __init__(self):
-        self.x=0.0
-        self.y=0.0
+    def __init__(self,xParam=0.0,yParam=0.0):
+        self.x=xParam
+        self.y=yParam
 
     def distance(self,pt):
         xDiff = self.x - pt.x
@@ -17,10 +17,14 @@ class Point(object):
         newPt = Point()
         newPt.x = self.x + pt.x
         newPt.y = self.y + pt.y
+    def __str__(self):
+        return "(%.2f, %.2f)"% (self.x,self.y)
+    
+
 
 def main():
-    p1 = Point()
+    p1 = Point(2.0,4.0)
     p2 = Point()
-    print p1.x, p1.y
-
+    print p1.distance(p2)
+    print p1
 main()
