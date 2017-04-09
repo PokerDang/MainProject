@@ -11,14 +11,11 @@ import  numpy as np
 from datetime import  datetime
 
 import sys
-sys.path.append('D:\Programs\Python\PythonProgramming\PythonProgramming')#添加PyFunction函数的路径
+def main():
+    holidays  = ['2017-01-26','2017-01-27']
+    normaldays = ['2017-01-26','2017-01-27','2017-01-28','2017-01-29']
+    for days in normaldays:
+        if days not in holidays:
+            print days
 
-from WindPy import w
-
-from PyFunction import*
-
-w.start();
-
-data = 1
-name = Series(u'东方证券')
-table = DataFrame(data,index = name, columns = [u'涨跌幅'])
+main()
