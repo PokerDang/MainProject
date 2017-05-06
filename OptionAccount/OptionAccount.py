@@ -22,10 +22,10 @@ for sheet in book.sheets():
     date_series.append(time)
 
 # 初始化存储数据表格
-data_list = ['InitialCashETF', 'InitialCashOption', 'InitialCashFuture', 'CashETF', 'AssetETF', 'TotalAssetETF' \
-    , 'MarginOption', 'CashOption', 'MarginFuture', 'CashFuture', 'TotalRepo', 'TotalExchangeFees', \
-             'TotalInvestmentCash', 'TotalCash', 'PnLOrcTheory', 'PnLOrcMarket', 'PnLMarketSettle', \
-             'PnLMarketClose']
+data_list = ['InitialCashETF', 'InitialCashOption', 'InitialCashFuture', 'InitialComCashFuture' ,'CashETF',\
+             'AssetETF', 'TotalAssetETF' , 'MarginOption', 'CashOption', 'MarginFuture', 'CashFuture',\
+             'MarginComFuture', 'CashComFuture', 'TotalRepo', 'TotalExchangeFees', 'TotalInvestmentCash', \
+             'TotalCash', 'PnLOrcTheory','PnLOrcMarket', 'PnLMarketSettle', 'PnLMarketClose']
 OptionAccount = DataFrame(columns=data_list, index=date_series)
 for sheet in book.sheets():
     value = str(sheet.name)
@@ -52,6 +52,16 @@ for sheet in book.sheets():
             OptionAccount.ix[time]['TotalCash'] = sheet.cell(rowTemp, 1).value
         if sheet.cell(rowTemp, 0).value == u'使用资金总额':
             OptionAccount.ix[time]['TotalInvestmentCash'] = sheet.cell(rowTemp, 1).value
+
+        # 读取商品账户数据
+        if sheet.cell(rowTemp, 0).value == u'商品初始资金':
+            OptionAccount.ix[time]['InitialComCashFuture'] = sheet.cell(rowTemp, 1).value
+        if sheet.cell(rowTemp, 0).value == u'商品当前账户余额':
+            OptionAccount.ix[time]['CashComFuture'] = sheet.cell(rowTemp, 1).value
+        if sheet.cell(rowTemp, 0).value == u'商品保证金':
+            OptionAccount.ix[time]['MarginComFuture'] = sheet.cell(rowTemp, 1).value
+
+
         # 读取期权账户数据
         if colNum > 3 and sheet.cell(rowTemp, 3).value == u'初始资金':
             OptionAccount.ix[time]['InitialCashOption'] = sheet.cell(rowTemp, 4).value
@@ -106,9 +116,9 @@ for pos_date in date_series:
     print pos_date, ' '
     file_date = datetime.strptime(pos_date, '%Y-%m-%d').strftime('%Y%m%d')
     filename = position_path + '/' + file_date + "-close" + ".xls"
-    bench_startdate = '2017-03-23'
-    bench_endate = '2017-04-07'
-    holidays = ['2017-01-26','2017-04-03','2017-04-04']
+    bench_startdate = '2017-03-31'
+    bench_endate = '2017-04-21'
+    holidays = ['2017-01-26','2017-04-03','2017-04-04','2017-05-01']
     if os.path.exists(filename) and pos_date>bench_startdate and pos_date<bench_endate and \
             pos_date not in holidays:  # 判断position excel文件是否存在,如果存在则调用;同时需满足日期的要求,1月26日无数据，剔除
     #if os.path.exists(filename):
@@ -118,7 +128,7 @@ for pos_date in date_series:
         InitialCashETF = OptionAccount.ix[pos_date]['InitialCashETF']
         InitialCashOption = OptionAccount.ix[pos_date]['InitialCashOption']
         InitialCashFuture = OptionAccount.ix[pos_date]['InitialCashFuture']
-
+        InitialComCashFuture = OptionAccount.ix[pos_date]['InitialComCashFuture']
 
         # Change Parameters
         TotalAssetETF = OptionAccount.ix[pos_date]['TotalAssetETF']
@@ -126,6 +136,8 @@ for pos_date in date_series:
         CashOption = OptionAccount.ix[pos_date]['CashOption']
         MarginFuture = OptionAccount.ix[pos_date]['MarginFuture']
         CashFuture = OptionAccount.ix[pos_date]['CashFuture']
+        MarginComFuture = OptionAccount.ix[pos_date]['MarginComFuture']
+        CashComFuture = OptionAccount.ix[pos_date]['CashComFuture']
 
         # ETF
         PnLETF = 0.0
@@ -134,6 +146,10 @@ for pos_date in date_series:
         # Future
         PnLFuture = 0.0
         PnLFuture = MarginFuture + CashFuture - InitialCashFuture
+
+        # Comodity
+        PnlComodity = 0.0
+        PnlComodity = MarginComFuture + CashComFuture - InitialComCashFuture
 
         # Option
         TotalAssetOption = 0.0
@@ -190,8 +206,8 @@ for pos_date in date_series:
         PnLSettleOption = TotalAssetOption + LongPositionSettleValue + ShortPositionSettleValue - InitialCashOption
 
         # 汇总
-        OptionAccount.ix[pos_date]['PnLMarketSettle'] = PnLSettleOption + PnLETF + PnLFuture
-        OptionAccount.ix[pos_date]['PnLMarketClose'] = PnLCloseOption + PnLETF + PnLFuture
+        OptionAccount.ix[pos_date]['PnLMarketSettle'] = PnLSettleOption + PnLETF + PnLFuture + PnlComodity
+        OptionAccount.ix[pos_date]['PnLMarketClose'] = PnLCloseOption + PnLETF + PnLFuture + PnlComodity
 
 
         # output
@@ -224,6 +240,19 @@ for pos_date in date_series:
         result.write('\n')
         result.write('CashFuture: ')
         result.write(str(CashFuture))
+        result.write('\n\n')
+
+        result.write('Each PnL:' + '\n')
+        result.write('Option Market Making PnL:' + '\n')
+        result.write('PnLSettleOption: ')
+        result.write(str(PnLSettleOption))
+        result.write('\n')
+        result.write('PnLETF: ')
+        result.write(str(PnLETF))
+        result.write('\n')
+        result.write('PnLFuture: ')
+        result.write(str(PnLFuture))
+        result.write('\n')
         result.write('\n\n')
 
         result.write('Option Market Making PnL:' + '\n')
