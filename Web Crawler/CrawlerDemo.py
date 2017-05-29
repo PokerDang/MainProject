@@ -7,4 +7,3 @@ response = urllib2.urlopen(request)
 print response.read()
 
 
-
