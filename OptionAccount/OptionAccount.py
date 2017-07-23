@@ -116,8 +116,8 @@ for pos_date in date_series:
     print pos_date, ' '
     file_date = datetime.strptime(pos_date, '%Y-%m-%d').strftime('%Y%m%d')
     filename = position_path + '/' + file_date + "-close" + ".xls"
-    bench_startdate = '2017-03-31'
-    bench_endate = '2017-04-21'
+    bench_startdate = '2017-07-10'
+    bench_endate = '2017-07-12'
     holidays = ['2017-01-26','2017-04-03','2017-04-04','2017-05-01']
     if os.path.exists(filename) and pos_date>bench_startdate and pos_date<bench_endate and \
             pos_date not in holidays:  # 判断position excel文件是否存在,如果存在则调用;同时需满足日期的要求,1月26日无数据，剔除
