@@ -9,10 +9,40 @@ import numpy
 #***************Option Setting Begin********************#
 def InitialOptionParameters(feedcode='',type='',T='',K=0,S=0,r=0,vol=0,offsets=0):
     option = {}
+    option['feedcode'] = feedcode
     option['offsets'] = offsets
     option['vol'] = vol
+    option['r'] = r
 
+    return option
 #***************Option Setting END*********************#
+
+
+
+
+#***************Option Greeks Begin********************#
+
+def CalcGreeks(Option):
+    Greeks = {}
+    Greeks['delta'] = 0
+    Greeks['skewdelta'] = 0
+    Greeks['cashdelta'] = 0
+    Greeks['skewcashdelta'] = 0
+    Greeks['cashgammma'] = 0
+    Greeks['skewcashgammma'] = 0
+    Greeks['skewcashgammma1per'] = 0
+    Greeks['vega'] = 0
+    Greeks['skewvega'] = 0
+    Greeks['theta'] = 0
+    Greeks['voltheta'] = 0
+
+    return Greeks
+
+
+
+
+#***************Option Greeks Begin********************#
+
 
 
 
