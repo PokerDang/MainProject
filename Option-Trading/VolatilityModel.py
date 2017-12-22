@@ -72,6 +72,9 @@ def InitialWingModelParameters(Days,F_atm,F_ref,Vol_ref,Slope_ref,Vol_cur,Slope_
 
 def Volatility_Wing(parameters):
     vol = 0
+    
+
+
     return vol
 #************Wing Model END*********************#
 
