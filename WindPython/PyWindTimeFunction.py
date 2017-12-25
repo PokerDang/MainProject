@@ -1,13 +1,23 @@
 #coding:utf-8
 '''字符编码更正，python默认是acii模式，没有支持utf8'''
 
-#自己编写的函数
+#*********************************************
+#将Wind中的时间函数，转换成正常格式输出
+
+#*********************************************
+
+
+
+
+
+
+
 from datetime import  datetime
 import numpy as np
 import pandas as pd
 import math
 from pandas import Series,DataFrame
-
+from WindPy import w
 
 
 #pywind_tdays_count：返回startdate和enddate之间的交易日数
@@ -36,7 +46,7 @@ def pywind_tdays_count(code,startdate,enddate,w):
 #pywind_tdays_count:开始日期与结束日期间交易日序列
 def pywind_tdays(code,startdate,enddate,w):
     tdays = w.tdays(startdate,enddate)
-    dates = pd.Series();
+    dates = pd.Series()
     for line in tdays.Times:
         day = str(line)[0:10]
         dates=dates.append(pd.Series(day))
@@ -125,9 +135,6 @@ def pywind_NdayPct(codes,names,Nday,date,w):
         stockPct = pywind_pct(codes[i],date,Nday,w)
         table.ix[i] = stockPct
     return table
-
-
-
 
 
 
