@@ -65,10 +65,12 @@ class StockTradeDays(object):
 
 def main():
     price_array = '30.14,29.58,26.36,32.56,32.82'.split(',')
-    print price_array
+    date_base = 20170118
+    trade_days = StockTradeDays(price_array,date_base)
+    print trade_days
 
 
-
+main()
 
 
 
