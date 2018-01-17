@@ -8,6 +8,8 @@ from WindPy import w
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.finance as mpf
+import numpy as np
+import seaborn as sns
 import datetime
 w.start();
 
@@ -18,6 +20,13 @@ wsd_data=w.wsd("510050.SH", "open,high,low,close,volume", "2017-01-01", "2017-12
 fm=pd.DataFrame(wsd_data.Data,index=wsd_data.Fields,columns=wsd_data.Times)
 fm = fm.T
 
+#添加每日上涨下跌，neiChangeratio
+fm['netChangeRatio'] = fm['CLOSE'].pct_change()
+fm['netChangeRatio'].ix[0] = 0
+
+
+
+'''
 #5.1.1  plot_demo
 #**********************
 
@@ -50,7 +59,21 @@ for index, (d,o,c,h,l) in enumerate(\
 mpf.candlestick_ochl(ax,quotes,width=0.6,colorup=__colorup__,colordown=__colordown__)
 ax.autoscale_view()
 ax.xaxis_date()
+#plt.show()
+#**********************
+
+fm_copy = fm.copy()
+
+fm_copy['RETURN'] = np.log(fm['CLOSE']/fm['CLOSE'].shift(1))
+fm_copy['MOV_STD'] = pd.rolling_std(fm_copy['RETURN'],window=20,center=False)*np.sqrt(20)
+fm_copy['STD_EWM'] = pd.ewmstd(fm_copy['RETURN'],span=20,min_periods=20,adjust=True)*np.sqrt(20)
+fm_copy[['CLOSE','MOV_STD','STD_EWM','RETURN']].plot(subplots=True,grid=True)
 plt.show()
 
+'''
+#5.4  Seaborn
+#**********************
+sns.distplot(fm['netChangeRatio'],bins=80)
+plt.show()
 
 #**********************
