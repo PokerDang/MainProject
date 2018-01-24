@@ -29,7 +29,7 @@ def SlopeCur(sref,SCR,SSR,Fatm,Fref):
 
 #volatility Wing model
 
-def VolModel_Wing(K,spot,r,T,Fref,vref,sref,pc,vc,cc,xdc,xuc,VCR,SCR,SSR,dsm,usm,kdown=0.,kup=0.):
+def VolModel_Wing(K,spot,r,T,Fref,vref,sref,pc,cc,xdc,xuc,VCR,SCR,SSR,dsm,usm):
 
     Fatm = F_Atm(spot,r,T)
     Fsyn = F_Syn(Fatm,Fref,SSR)
@@ -40,18 +40,14 @@ def VolModel_Wing(K,spot,r,T,Fref,vref,sref,pc,vc,cc,xdc,xuc,VCR,SCR,SSR,dsm,usm
 #Total Six Range
 #down constant range
     if x < xdc*(1+dsm):
-        x1 = xdc
-        x0 = x1*(1+dsm)
-        return kdown*(x-x0)+volcur + slopecur*x0 + pc*np.square(x0)
+        vol_x = volcur + xdc*(2+dsm)*slopecur*0.5+(1+dsm)*pc*np.square(xdc)
+        return vol_x
 
 #down smoothing range
     elif x>=xdc*(1+dsm) and x<xdc:
-        x1 = xdc
-        x0 = x1 * (1 + dsm)
-        c = (2*x1*pc+slopecur-kdown)/(2*(x1-x0))
-        b = kdown - (2*x1*pc+slopecur-kdown)/(x1-x0)*x0
-        a = volcur + slopecur*x1 + pc*np.square(x1) - b*x1-c*x1
-        return a+b*x+c*np.square(x)
+        vol_x = volcur -(1+1/dsm)*pc*np.square(xdc)-(slopecur*xdc)/(2*dsm)+\
+                (1+1/dsm)*(2*pc*xdc+slopecur)*x - (pc/dsm + slopecur/(2*xdc*dsm))*np.square(x)
+        return vol_x
 #put wing
     elif x>= xdc and x<0:
         return volcur + slopecur*x + pc*np.square(x)
@@ -60,15 +56,12 @@ def VolModel_Wing(K,spot,r,T,Fref,vref,sref,pc,vc,cc,xdc,xuc,VCR,SCR,SSR,dsm,usm
         return volcur + slopecur*x + cc*np.square(x)
 #up smoothing range
     elif x >= xuc and x < xuc(1+usm):
-        x2 = xuc
-        x3 = xuc * (1 + usm)
-        c = (2*x2*cc+slopecur-kup)/(2*(x2-x3))
-        b = kup - (2*x2*cc+slopecur-kup)/(x2-x3)*x3
-        a = volcur + slopecur*x2 + cc*np.square(x2) - b*x2-c*x2
-        return  a+b*x+c*np.square(x)
+        vol_x = volcur -(1+1/usm)*cc*np.square(xuc)-(slopecur*xuc)/(2*usm)+\
+                (1+1/usm)*(2*cc*xuc+slopecur)*x - (cc/usm + slopecur/(2*xuc*usm))*np.square(x)
+        return  vol_x
 #up constant range
     else:
-        x2 = xuc
-        x3 = xuc*(1+usm)
-        return kup*(x-x3) + volcur + slopecur*x3 + cc*np.square(x3)
+        vol_x = volcur + xuc*(2+usm)*slopecur*0.5+(1+usm)*cc*np.square(xuc)
+        return vol_x
+
 

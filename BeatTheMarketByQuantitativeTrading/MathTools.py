@@ -64,6 +64,48 @@ class Person(object):
         self.wealth = 0
         self.fame = 0
         self.living_day = 0
+    def live_one_day(self,seek):
+        consume_living,hapiness,wealth,fame = seek.do_seek_day()
+        self.living -= consume_living
+        self.happiness += hapiness
+        self.wealth += wealth
+        self.fame += fame
+        self.living += 1
+
+class BaseSeekDay(six.with_metaclass(ABCMeta,object)):
+    def __init__(self):
+        self.living_consume = 0
+        self.happiness_base = 0
+        self.weath_base = 0
+        self.fame_base = 0
+        self.living_factor = [0]
+        self.happiness_factor = [0]
+        self.weath_factor = 0
+        self.fame_factor = 0
+        self.do_seek_day_cnt = 0
+        self._init_self()
+    @abstractmethod
+    def _init_(self,*args,**kwargs):
+        pass
+    @abstractmethod
+    def _gen_living_days(self,*args,**kwargs):
+        pass
+    def do_seek_day(self):
+        if self.do_seek_day_cnt >= len(self.living_factor):
+            consume_living = self.living_factor[-1]*self.living_consume
+        else:
+            consume_living = self.living_factor[self.do_seek_day_cnt]*self.living_consume
+        if self.do_seek_day_cnt >= len(self.happiness_factor):
+            happiness = self.happiness_factor[-1] * self.happiness_base
+        else:
+            happiness = self.happiness_factor[self.do_seek_day_cnt]*self.happiness_base
+        if self.do_seek_day_cnt >= len(self.weath_factor):
+            wealth = self.weath_factor[-1] * self.weath_base
+        else:
+            wealth = self.weath_factor[self.do_seek_day_cnt]*self.weath_base
+        if self.do_seek_day_cnt >= len(self.fame_factor):
+
+
 
 
 #**********************
