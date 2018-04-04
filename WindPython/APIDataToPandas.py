@@ -21,7 +21,7 @@ print('close:/n',close)
 
 #演示如何将api返回的数据装入Pandas的DataFrame
 fm=pd.DataFrame(wsd_data.Data,index=wsd_data.Fields,columns=wsd_data.Times)
-print('fm:/n',fm)
+#print('fm:/n',fm)
 
 # 自己编写的函数，获取不同股票的收盘价序列，然后封装入pandas
 wsd_data2=w.wsd("000001.SH,000016.SH", "close", "2017-01-01", "2017-12-31", "Fill=Previous")
