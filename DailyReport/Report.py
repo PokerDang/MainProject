@@ -15,7 +15,7 @@ import datetime
 #********************
 
 
-lasttradedate = "2018-04-10" #最后交易日
+lasttradedate = "2018-04-13" #最后交易日
 lastweekdate = "2018-04-09" #最近一周起始日
 lastmonthdate = "2018-04-01" #最近一月起始日
 lastyeardate = "2018-01-01" #最近一年起始日
@@ -39,7 +39,7 @@ datalatestprice = pd.DataFrame(w.wsd(index, "close", lasttradedate,lasttradedate
                                      "Fill=Previous").Data,index=[u'最新价'],columns=name).T
 
 report = pd.concat([datalatestprice,dataday,dataweek,datamonth,datayear],axis=1,join_axes=[datalatestprice.index])#合并
-report.to_excel('report'+'_'+lasttradedate+'.xlsx',sheet_name='Sheet1')
+#report.to_excel('report'+'_'+lasttradedate+'.xlsx',sheet_name='Sheet1')
 
 print report,'\n\n'
 
