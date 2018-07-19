@@ -1,3 +1,6 @@
+# encoding: utf-8
+
+
 '''
 应用简介：
 基于Python语言，使用wsq订阅数据，然后存储到硬盘中。
@@ -29,14 +32,10 @@ indata.Data=[[3623.0]]
 
 
 
-
-
-
-
-
 import threading
 from WindPy import *
 w.start();
+from datetime import datetime
 
 #define the callback function
 def myCallback(indata):
@@ -49,10 +48,8 @@ def myCallback(indata):
     for k in range(0,len(indata.Fields)):
          if(indata.Fields[k] == "RT_LAST"):
             lastvalue = str(indata.Data[k][0]);
-
     string =  lastvalue +"\n";
     print(string);
-
     #应该在w.cancelRequest后调用pf.close()
     #pf.close();
 
@@ -67,7 +64,7 @@ class feeder(threading.Thread):
         self.name = name
     def run(self):
         w.start()
-        w.wsq("IF1512.CFE","rt_time,rt_last",func=myCallback)
+        w.wsq("RB.SHF","rt_time,rt_last",func=myCallback)
 #to subscribe if14.CFE
 
 thread1 =feeder(1,"feder-1")

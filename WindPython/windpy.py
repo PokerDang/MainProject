@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from WindPy import *
 import numpy as np
 import pandas as pd
@@ -12,9 +14,5 @@ dat= w.wsd("002739.SZ", "open,high,low,close,volume,amt", "2016-05-17",
 fm=pd.DataFrame(dat.Data,index=dat.Fields,columns=dat.Times)#pandas timeseries type
 fm=fm.T
  
-type(fm['OPEN'])
-
-
-fm['CLOSE'].plot(color='white')
-plt.show()
+print fm
 
